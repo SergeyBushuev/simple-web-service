@@ -1,2 +1,2 @@
-rootProject.name = "YandexSprint3Project"
+rootProject.name = "simple-web-service"
 
