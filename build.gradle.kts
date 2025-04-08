@@ -10,10 +10,15 @@ repositories {
     mavenCentral()
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+}
 
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+
+    implementation("org.projectlombok:lombok:1.18.34")
 
     implementation("org.springframework:spring-webmvc:6.2.1")
     implementation("org.springframework:spring-jdbc:6.2.1")
