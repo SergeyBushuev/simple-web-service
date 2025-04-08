@@ -1,29 +1,52 @@
 package org.example.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class PostController {
 
-    public String getPosts() {}
+    @GetMapping("/")
+    public String getPostsRedirect() {}
 
-    public String getPost() {}
+    @GetMapping("/posts")
+    public String getPosts(String search, int pageSize, int pageNumber) {}
 
-    public String addPost() {}
+    @GetMapping("/posts{id}")
+    public String getPost(int id) {}
 
-    public String updatePost() {}
+    @GetMapping("/posts/add")
+    public String addPostPage() {}
 
-    public String likePost() {}
+    @PostMapping("/posts")
+    public String addPost(String title, String text, MultipartFile image, String tags) {}
 
-    public String deletePost() {}
+    @PostMapping("/posts/{id}/edit")
+    public String editPostPage(int id) {}
 
-    public String addComment() {}
+    @PostMapping("/posts/{id}")
+    public String editPost(int id, String title, String text, MultipartFile image, String tags) {}
 
-    public String updateComment() {}
+    @PostMapping("/posts/{id}/like")
+    public String likePost(int id, boolean like) {}
 
-    public String deleteComment() {}
+    @PostMapping("/posts/{id}/delete")
+    public String deletePost(int id) {}
 
-    public String getImage() {}
+    @PostMapping("/posts/{id}/comments")
+    public String addComment(int id, String text) {}
+
+    @PostMapping("/posts/{id}/comments/{commentId}")
+    public String editComment(int id, int commentId, String text) {}
+
+    @PostMapping("/posts/{id}/comments/{commentId}/delete")
+    public String deleteComment(int id, int commentId) {}
+
+    @GetMapping("/images/{id}")
+    public String getImage(int id) {}
 
 
 }
