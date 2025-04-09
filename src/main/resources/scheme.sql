@@ -19,16 +19,13 @@ CREATE TABLE IF NOT EXISTS comments
 
 CREATE TABLE IF NOT EXISTS tags
 (
-    id SERIAL PRIMARY KEY,
-    tag varchar(30)
+    tag varchar(30) PRIMARY KEY
 );
 
 
 CREATE TABLE IF NOT EXISTS post_tags
 (
-    post_id INTEGER REFERENCES posts,
+    post_id INTEGER REFERENCES posts ON DELETE CASCADE,
     tag_id  VARCHAR REFERENCES tags,
-    FOREIGN KEY (post_id)
-        REFERENCES posts (id)
-        ON DELETE CASCADE
+    PRIMARY KEY (post_id, tag_id)
 );
