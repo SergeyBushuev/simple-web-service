@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.model.Comment;
 import org.example.model.Post;
 import org.example.repository.interfaces.IPostRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -16,9 +17,11 @@ import static org.example.repository.mappers.RowMappers.postRowMapper;
 @Repository
 @RequiredArgsConstructor
 public class PostRepository implements IPostRepository {
-
+    @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
     private CommentRepository commentRepository;
+    @Autowired
     private TagRepository tagRepository;
 
     @Override

@@ -1,14 +1,25 @@
 package org.example.controller;
 
+import lombok.RequiredArgsConstructor;
+import org.example.controller.mapper.dbToFrontMapper;
+import org.example.controller.model.PostFront;
+import org.example.model.Post;
+import org.example.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+
 @Controller
+@RequiredArgsConstructor
 public class PostController {
+    @Autowired
+    PostService postService;
 
     @GetMapping("/")
     public String getPostsRedirect() {
@@ -22,8 +33,11 @@ public class PostController {
         return "posts";
     }
 
-    @GetMapping("/posts{id}")
-    public String getPost(@RequestParam Long id) {
+    @GetMapping("/posts/{id}")
+    public String getPost(Model model, @PathVariable(value = "id") Long id) {
+        Post post = postService.getPostById(id);
+        PostFront postFront = dbToFrontMapper.dbToFront(post);
+        model.addAttribute("post", postFront);
         return "post";
     }
 
@@ -42,12 +56,12 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String editPostPage(@RequestParam Long id) {
+    public String editPostPage(@PathVariable(value = "id") Long id) {
         return "redirect:/posts/" + id;
     }
 
     @PostMapping("/posts/{id}")
-    public String editPost(@RequestParam Long id,
+    public String editPost(@PathVariable(value = "id") Long id,
                            @RequestParam(value = "title") String title,
                            @RequestParam(value = "text") String text,
                            @RequestParam(value = "image") MultipartFile image,
@@ -56,37 +70,37 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/like")
-    public String likePost(@RequestParam Long id,
+    public String likePost(@PathVariable(value = "id") Long id,
                            @RequestParam(value = "like") boolean like) {
         return "redirect:/posts/" + id;
     }
 
     @PostMapping("/posts/{id}/delete")
-    public String deletePost(@RequestParam Long id) {
+    public String deletePost(@PathVariable(value = "id") Long id) {
         return "redirect:/posts/";
     }
 
     @PostMapping("/posts/{id}/comments")
-    public String addComment(@RequestParam Long id,
+    public String addComment(@PathVariable(value = "id") Long id,
                              @RequestParam(value = "text") String text) {
         return "redirect:/posts/" + id;
     }
 
     @PostMapping("/posts/{id}/comments/{commentId}")
-    public String editComment(@RequestParam Long id,
-                              @RequestParam(value = "commentId") int commentId,
+    public String editComment(@PathVariable(value = "id") Long id,
+                              @PathVariable(value = "commentId") int commentId,
                               @RequestParam(value = "tex") String text) {
         return "redirect:/posts/" + id;
     }
 
     @PostMapping("/posts/{id}/comments/{commentId}/delete")
-    public String deleteComment(@RequestParam Long id,
-                                @RequestParam(value = "commentId") int commentId) {
+    public String deleteComment(@PathVariable(value = "id") Long id,
+                                @PathVariable(value = "commentId") int commentId) {
         return "redirect:/posts" + id;
     }
 
     @GetMapping("/images/{id}")
-    public String getImage(@RequestParam Long id) {
+    public String getImage(@PathVariable(value = "id") Long id) {
         return null; /* TODO image load*/
     }
 
