@@ -3,10 +3,11 @@ package org.example.repository.interfaces;
 import org.example.model.Comment;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ICommentRepository {
 
-    Comment findById(Long id);
+    Optional<Comment> findById(Long id);
 
     List<Comment> findByPostId(Long postId);
 

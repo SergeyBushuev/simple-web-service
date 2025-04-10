@@ -1,20 +1,31 @@
 package org.example.repository;
 
 import org.example.model.Comment;
+import org.example.model.Post;
 import org.example.repository.interfaces.ICommentRepository;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
+import java.util.Optional;
+
+import static org.example.repository.mappers.RowMappers.commentRowMapper;
 
 public class CommentRepository implements ICommentRepository {
 
+    private JdbcTemplate jdbcTemplate;
+
     @Override
-    public Comment findById(Long id) {
-        return null;
+    public Optional<Comment> findById(Long id) {
+        String sqlQuery = "select * from comments where id = " + id;
+        List<Comment> posts = jdbcTemplate.query(sqlQuery, commentRowMapper);
+        return Optional.of(posts.getFirst());
     }
 
     @Override
     public List<Comment> findByPostId(Long postId) {
-        return List.of();
+        String sqlQuery = "SELECT * FROM comments where comments.post_id = " + postId;
+        List<Comment> posts = jdbcTemplate.query(sqlQuery, commentRowMapper);
+        return posts;
     }
 
     @Override

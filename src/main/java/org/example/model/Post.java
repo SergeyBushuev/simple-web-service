@@ -3,33 +3,36 @@ package org.example.model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 
 
 public class Post {
-    private int id;
+    private long id;
     private String title;
     private String text;
-    private MultipartFile image;
+    private byte[] image;
     private int likesCount;
-    private List<String> comments;
+    private List<Comment> comments;
+    private Set<String> tags;
 
     public Post() {
     }
 
-    public Post(int id, String title, String text, MultipartFile image, int likesCount, List<String> comments) {
+    public Post(long id, String title, String text, byte[] image, int likesCount, List<Comment> comments, Set<String> tags) {
         this.id = id;
         this.title = title;
         this.text = text;
         this.image = image;
         this.likesCount = likesCount;
         this.comments = comments;
+        this.tags = tags;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -49,11 +52,11 @@ public class Post {
         this.text = text;
     }
 
-    public MultipartFile getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(MultipartFile image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 
@@ -65,11 +68,19 @@ public class Post {
         this.likesCount = likesCount;
     }
 
-    public List<String> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<String> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Set<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<String> tags) {
+        this.tags = tags;
     }
 }
