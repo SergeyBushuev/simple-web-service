@@ -10,8 +10,8 @@ public class RowMappers {
         post.setId(resultSet.getLong("id"));
         post.setTitle(resultSet.getString("title"));
         post.setText(resultSet.getString("text"));
-        post.setImage(resultSet.getBytes("image_data"));
-        post.setLikesCount(resultSet.getInt("likes_count"));
+        post.setImage(resultSet.getBytes("image"));
+        post.setLikesCount(resultSet.getInt("likes"));
 
         return post;
     };
