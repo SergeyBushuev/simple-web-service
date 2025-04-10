@@ -93,4 +93,8 @@ public class PostFront {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    public String getTagsAsText() {
+        return String.join(", ", tags);
+    }
 }

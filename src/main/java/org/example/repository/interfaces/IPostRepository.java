@@ -12,6 +12,8 @@ public interface IPostRepository {
 
     long PostsCount();
 
+    Post update(Post post);
+
     Post save(Post post);
 
     void delete(Post post);

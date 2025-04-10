@@ -18,6 +18,16 @@ public class TagRepository implements ITagRepository {
     }
 
     @Override
+    public void changePostTags(Long postId, Set<String> tags) {
+
+    }
+
+    @Override
+    public void deleteTag(String tag) {
+
+    }
+
+    @Override
     public void linkToPost(Long postId, Long tagId) {
 
     }

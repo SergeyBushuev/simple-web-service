@@ -51,7 +51,15 @@ public class PostRepository implements IPostRepository {
     }
 
     @Override
+    public Post update(Post post) {
+        String query = "update posts set title = ?, text = ?, image = ? where id = ?";
+        jdbcTemplate.update(query, post.getTitle(), post.getText(), post.getImage(), post.getId());
+        return post;
+    }
+
+    @Override
     public Post save(Post post) {
+        String sqlQuery = "select * from posts where id = ";
         return null;
     }
 

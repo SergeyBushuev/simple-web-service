@@ -8,14 +8,12 @@ import org.example.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
+@RequestMapping
 @RequiredArgsConstructor
 public class PostController {
     @Autowired
@@ -55,19 +53,35 @@ public class PostController {
         return "redirect:/posts/" /* TODO +postID */;
     }
 
-    @PostMapping("/posts/{id}/edit")
-    public String editPostPage(@PathVariable(value = "id") Long id) {
-        return "redirect:/posts/" + id;
+    @GetMapping("/posts/{id}/edit")
+    public String editPostPage(Model model, @PathVariable(value = "id") Long id) {
+        Post post = postService.getPostById(id);
+        PostFront postFront = dbToFrontMapper.dbToFront(post);
+        model.addAttribute("post", postFront);
+        return "add-post";
     }
+
+//    @PostMapping("/posts/{id}")
+//    public String editPost(@PathVariable(value = "id") Long id,
+//                           @RequestParam(value = "title") String title,
+//                           @RequestParam(value = "text") String text,
+//                           @RequestParam(value = "image") MultipartFile image,
+//                           @RequestParam(value = "tags") String tags) {
+//        Post post = postService.editPost(id, title, text, image, tags);
+//        return "redirect:/posts/" + post.getId();
+//    }
 
     @PostMapping("/posts/{id}")
     public String editPost(@PathVariable(value = "id") Long id,
-                           @RequestParam(value = "title") String title,
-                           @RequestParam(value = "text") String text,
-                           @RequestParam(value = "image") MultipartFile image,
-                           @RequestParam(value = "tags") String tags) {
-        return "redirect:/posts/" + id;
+                           @RequestPart("title") String title,
+                           @RequestPart("text") String text,
+                           @RequestPart("tags") String tags,
+                           @RequestPart("image") MultipartFile image
+                           ) {
+        Post post = postService.editPost(id, title, text, image, tags);
+        return "redirect:/posts/" + post.getId();
     }
+//    @RequestBody
 
     @PostMapping("/posts/{id}/like")
     public String likePost(@PathVariable(value = "id") Long id,

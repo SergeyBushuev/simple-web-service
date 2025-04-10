@@ -8,6 +8,10 @@ public interface ITagRepository {
 
     String createTag(String name);
 
+    void changePostTags(Long postId, Set<String> tags);
+
+    void deleteTag(String tag);
+
     void linkToPost(Long postId, Long tagId);
 
     void unLinkToPost(Long postId);

@@ -83,4 +83,7 @@ public class Post {
     public void setTags(Set<String> tags) {
         this.tags = tags;
     }
+    public String getTagsAsText() {
+        return String.join(", ", tags);
+    }
 }
