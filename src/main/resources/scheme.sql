@@ -30,20 +30,39 @@ CREATE TABLE IF NOT EXISTS post_tags
     PRIMARY KEY (post_id, tag_id)
 );
 
-INSERT INTO posts VALUES
-                      (default, 'newArticle4', 'tetetetetete', NULL, default);
+CREATE OR REPLACE FUNCTION delete_redundant_tags()
+    RETURNS TRIGGER
+AS
+$$
+BEGIN
+    DELETE FROM tags
+    WHERE NOT EXISTS (
+        SELECT FROM post_tags
+        WHERE post_tags.tag_id = old.tag_id
+    );
+    RETURN old;
+END;
+$$
+    LANGUAGE plpgsql;
 
-INSERT INTO tags VALUES
-    ('tag');
+CREATE TRIGGER auto_delete_tags
+    AFTER DELETE ON post_tags
+    FOR EACH ROW EXECUTE PROCEDURE delete_redundant_tags();
 
-INSERT INTO post_tags VALUES
-                      (1, 'tag');
 
-SELECT * FROM posts
-JOIN post_tags on posts.id = post_tags.post_id AND post_tags.tag_id='tag';
+CREATE OR REPLACE FUNCTION create_new_tags()
+    RETURNS TRIGGER
+AS
+$$
+BEGIN
+    INSERT INTO tags VALUES (new.tag_id) ON CONFLICT (tag) DO NOTHING;
+    return new;
+END;
+$$
+    LANGUAGE plpgsql;
 
-INSERT INTO comments VALUES
-                      (default, 1, 'nice!');
 
-SELECT * FROM comments
-    where comments.post_id = 1
+CREATE TRIGGER auto_create_tags
+    BEFORE INSERT ON post_tags
+    FOR EACH ROW EXECUTE PROCEDURE create_new_tags();
+
