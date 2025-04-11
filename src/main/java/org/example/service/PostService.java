@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.controller.model.Paging;
 import org.example.model.Comment;
 import org.example.model.Post;
-import org.example.repository.PostRepository;
+import org.example.repository.interfaces.IPostRepository;
 import org.example.service.interfaces.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class PostService implements IPostService {
     @Autowired
-    PostRepository postRepository;
+    IPostRepository postRepository;
 
     private final int DEFAULT_LIKES = 0;
     private final int NEW_ID = -1;
@@ -58,6 +58,7 @@ public class PostService implements IPostService {
         postRepository.like(postId, like);
     }
 
+    @Override
     public byte[] getImageByPostId(long id) {
         Optional<Post> post = postRepository.findById(id);
         return post.map(Post::getImage).orElse(null);
@@ -86,9 +87,13 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public Paging generatePaging(int pageSize, int pageNum) {
-        int postCount = postRepository.getPostCount();
-        return new Paging(pageNum, pageSize, pageNum * pageSize < postCount, pageNum > 1);
+    public void deletePostById(long id) {
+        postRepository.delete(id);
+    }
+
+    @Override
+    public int getPostCount() {
+        return postRepository.getPostCount();
     }
 
 }

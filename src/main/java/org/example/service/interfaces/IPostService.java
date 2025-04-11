@@ -16,7 +16,11 @@ public interface IPostService {
 
     void likePost(Long postId, boolean like);
 
+    byte[] getImageByPostId(long id);
+
     Post editPost(long id, String title, String text, MultipartFile image, String tags);
 
-    Paging generatePaging(int pageSize, int pageNum);
+    void deletePostById(long id);
+
+    int getPostCount();
 }

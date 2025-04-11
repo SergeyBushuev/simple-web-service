@@ -5,7 +5,7 @@ import org.example.controller.mapper.dbToFrontMapper;
 import org.example.controller.model.Paging;
 import org.example.controller.model.PostFront;
 import org.example.model.Post;
-import org.example.service.PostService;
+import org.example.service.interfaces.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
@@ -23,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
     @Autowired
-    PostService postService;
+    IPostService postService;
 
     @GetMapping("/")
     public String getPostsRedirect() {
@@ -38,7 +38,14 @@ public class PostController {
         List<PostFront> frontPosts = postService.getPosts(search, pageNumber, pageSize)
                 .stream().map(dbToFrontMapper::dbToFront)
                 .toList();
-        Paging paging = postService.generatePaging(pageSize, pageNumber);
+
+        int postCount = postService.getPostCount();
+        Paging paging = new Paging(
+                pageNumber,
+                pageSize,
+                pageNumber * pageSize < postCount,
+                pageNumber > 1);
+
         model.addAttribute("posts", frontPosts);
         model.addAttribute("search", search);
         model.addAttribute("paging", paging);
@@ -96,7 +103,7 @@ public class PostController {
 
     @PostMapping("/posts/{id}/delete")
     public String deletePost(@PathVariable(value = "id") Long id) {
-
+        postService.deletePostById(id);
         return "redirect:/posts/";//TODO
     }
 
