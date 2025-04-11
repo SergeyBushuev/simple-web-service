@@ -54,6 +54,14 @@ public class PostRepository implements IPostRepository {
     }
 
     @Override
+    public void like(Long postId, boolean like) {
+        String query = "UPDATE posts AS p" +
+        " SET likes = p.likes + " + (like ? 1 : -1) +
+        " WHERE p.id = " + postId;
+        jdbcTemplate.update(query);
+    }
+
+    @Override
     public Post update(Post post) {
         String query = "update posts set title = ?, text = ?, image = ? where id = ?";
         jdbcTemplate.update(query, post.getTitle(), post.getText(), post.getImage(), post.getId());

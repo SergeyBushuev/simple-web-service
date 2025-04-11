@@ -14,6 +14,7 @@ public class dbToFrontMapper {
         postFront.setImage(post.getImage());
         postFront.setText(post.getText());
         postFront.setTextParts(List.of(post.getText().split("\\n")));
+        postFront.setLikesCount(post.getLikesCount());
         postFront.setComments(post.getComments());
         postFront.setTags(post.getTags());
         return postFront;

@@ -12,6 +12,8 @@ public interface IPostRepository {
 
     long PostsCount();
 
+    void like(Long id, boolean like);
+
     Post update(Post post);
 
     Post save(Post post);

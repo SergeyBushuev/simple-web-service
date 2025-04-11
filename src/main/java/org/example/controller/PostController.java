@@ -78,6 +78,7 @@ public class PostController {
     @PostMapping("/posts/{id}/like")
     public String likePost(@PathVariable(value = "id") Long id,
                            @RequestParam(value = "like") boolean like) {
+        postService.likePost(id, like);
         return "redirect:/posts/" + id;//TODO
     }
 

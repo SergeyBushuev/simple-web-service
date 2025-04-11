@@ -42,6 +42,11 @@ public class PostService implements IPostService {
         return postRepository.save(post);
     }
 
+    @Override
+    public void likePost(Long postId, boolean like) {
+        postRepository.like(postId, like);
+    }
+
     public byte[] getImageByPostId(long id) {
         Optional<Post> post = postRepository.findById(id);
         return post.map(Post::getImage).orElse(null);
