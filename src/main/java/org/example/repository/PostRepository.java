@@ -1,6 +1,7 @@
 package org.example.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.example.controller.model.Paging;
 import org.example.model.Comment;
 import org.example.model.Post;
 import org.example.repository.interfaces.IPostRepository;
@@ -49,11 +50,6 @@ public class PostRepository implements IPostRepository {
     }
 
     @Override
-    public long PostsCount() {
-        return 0;
-    }
-
-    @Override
     public void like(Long postId, boolean like) {
         String query = "UPDATE posts AS p" +
         " SET likes = p.likes + " + (like ? 1 : -1) +
@@ -91,6 +87,28 @@ public class PostRepository implements IPostRepository {
 
         tagRepository.linkToPost(post.getTags(), post.getId());
         return post;
+    }
+
+    @Override
+    public int getPostCount() {
+        String sqlQuery = "SELECT COUNT(*) FROM posts";
+        return jdbcTemplate.queryForObject(sqlQuery, Integer.class);
+    }
+
+    @Override
+    public List<Post> getAllPosts(int pageSize, int offset) {
+        String sqlQuery = "SELECT * FROM posts ORDER BY posts.id DESC LIMIT " + pageSize + " OFFSET " + offset;
+        List<Post> posts = jdbcTemplate.query(sqlQuery, postRowMapper);
+
+        return posts.stream().peek(this::setTagsAntComments).toList();
+    }
+
+
+    private void setTagsAntComments(Post post) {
+        Set<String> postTags = tagRepository.findByPostId(post.getId());
+        post.setTags(postTags);
+        List<Comment> postComments = commentRepository.findByPostId(post.getId());
+        post.setComments(postComments);
     }
 
     @Override

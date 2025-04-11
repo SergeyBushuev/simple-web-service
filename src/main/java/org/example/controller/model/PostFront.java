@@ -94,6 +94,13 @@ public class PostFront {
         this.comments = comments;
     }
 
+    public String getTextPreview() {
+        if (text == null) {
+            return "";
+        }
+        return text.split("\n")[0];
+    }
+
     public String getTagsAsText() {
         return String.join(" ", tags);
     }

@@ -39,9 +39,4 @@ public class TagRepository implements ITagRepository {
         jdbcTemplate.update(query);
     }
 
-    @Override
-    public List<Long> findPostsByTags(Set<String> tags) {
-        return new ArrayList<>();
-    }
-
 }

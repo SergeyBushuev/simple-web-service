@@ -1,7 +1,7 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import org.example.controller.model.Paging;
 import org.example.model.Comment;
 import org.example.model.Post;
 import org.example.repository.PostRepository;
@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +21,12 @@ public class PostService implements IPostService {
 
     private final int DEFAULT_LIKES = 0;
     private final int NEW_ID = -1;
+
+    public List<Post> getPosts(String search, int pageNumber, int pageSize) {
+        long postCount = postRepository.getPostCount();
+        int offset = (pageNumber - 1) * pageSize;
+        return postRepository.getAllPosts(offset, pageSize);
+    }
 
     @Override
     public Post getPostById(long id) {
@@ -74,5 +79,10 @@ public class PostService implements IPostService {
         return postRepository.update(post);
     }
 
+    @Override
+    public Paging generatePaging(int pageSize, int pageNum) {
+        int postCount = postRepository.getPostCount();
+        return new Paging(pageNum, pageSize, pageNum * pageSize < postCount, pageNum > 1);
+    }
 
 }

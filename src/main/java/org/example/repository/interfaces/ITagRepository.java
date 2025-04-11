@@ -9,7 +9,5 @@ public interface ITagRepository {
 
     Set<String> linkToPost(Set<String> name, Long postId);
 
-    List<Long> findPostsByTags(Set<String> tags);
-
     void unLinkToPost(Long postId);
 }

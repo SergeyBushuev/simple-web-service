@@ -10,13 +10,15 @@ public interface IPostRepository {
 
     List<Post> findByTag(String searchTag);
 
-    long PostsCount();
-
     void like(Long id, boolean like);
 
     Post update(Post post);
 
     Post save(Post post);
+
+    int getPostCount();
+
+    List<Post> getAllPosts(int pageSize, int offset);
 
     void delete(Post post);
 }

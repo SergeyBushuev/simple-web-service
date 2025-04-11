@@ -2,6 +2,7 @@ package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.controller.mapper.dbToFrontMapper;
+import org.example.controller.model.Paging;
 import org.example.controller.model.PostFront;
 import org.example.model.Post;
 import org.example.service.PostService;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 @Controller
@@ -28,10 +31,19 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public String getPosts(@RequestParam(value = "search", defaultValue = "") String search,
+    public String getPosts(Model model,
+                           @RequestParam(value = "search", defaultValue = "") String search,
                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                            @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber) {
-        return "posts"; //TODO
+        List<PostFront> frontPosts = postService.getPosts(search, pageSize, pageNumber)
+                .stream().map(dbToFrontMapper::dbToFront)
+                .toList();
+        Paging paging = postService.generatePaging(pageSize, pageNumber);
+        model.addAttribute("posts", frontPosts);
+        model.addAttribute("search", search);
+        model.addAttribute("paging", paging);
+
+        return "posts";
     }
 
     @GetMapping("/posts/{id}")
@@ -70,7 +82,7 @@ public class PostController {
                            @RequestPart(value = "text", required = false) String text,
                            @RequestPart(value = "tags", required = false) String tags,
                            @RequestPart(value = "image", required = false) MultipartFile image
-                           ) {
+    ) {
         Post post = postService.editPost(id, title, text, image, tags);
         return "redirect:/posts/" + post.getId();
     }
