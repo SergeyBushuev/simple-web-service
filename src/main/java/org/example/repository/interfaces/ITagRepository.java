@@ -1,18 +1,15 @@
 package org.example.repository.interfaces;
 
+import java.util.List;
 import java.util.Set;
 
 public interface ITagRepository {
 
     Set<String> findByPostId(Long postId);
 
-    String createTag(String name);
+    Set<String> linkToPost(Set<String> name, Long postId);
 
-    void changePostTags(Long postId, Set<String> tags);
-
-    void deleteTag(String tag);
-
-    void linkToPost(Long postId, Long tagId);
+    List<Long> findPostsByTags(Set<String> tags);
 
     void unLinkToPost(Long postId);
 }

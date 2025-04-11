@@ -64,7 +64,7 @@ public class PostService implements IPostService {
             throw new RuntimeException("Can't load image", e);
         }
 
-        Set<String> tags = tagsString != null ? Set.of(tagsString.split(",")) : new HashSet<>();
+        Set<String> tags = tagsString != null ? Set.of(tagsString.split(" ")) : new HashSet<>();
         post.setTags(tags);
         return postRepository.update(post);
     }

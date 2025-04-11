@@ -95,6 +95,6 @@ public class PostFront {
     }
 
     public String getTagsAsText() {
-        return String.join(", ", tags);
+        return String.join(" ", tags);
     }
 }

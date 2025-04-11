@@ -6,7 +6,6 @@ import org.example.model.Post;
 import org.example.repository.interfaces.IPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
@@ -58,23 +57,31 @@ public class PostRepository implements IPostRepository {
     public Post update(Post post) {
         String query = "update posts set title = ?, text = ?, image = ? where id = ?";
         jdbcTemplate.update(query, post.getTitle(), post.getText(), post.getImage(), post.getId());
+
+        tagRepository.unLinkToPost(post.getId());
+        tagRepository.linkToPost(post.getTags(), post.getId());
         return post;
     }
 
     @Override
     public Post save(Post post) {
-        String sqlQuery = "INSERT INTO posts (title, text, image, likes) VALUES (?, ?, ?, ?)";
+        String sqlQuery = "INSERT INTO posts (title, text, likes, image) VALUES (?, ?, ?, ?)";
+
+
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(conn -> {
             PreparedStatement ps = conn.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, post.getTitle());
             ps.setString(2, post.getText());
-            ps.setBytes(3, post.getImage());
-            ps.setInt(4, post.getLikesCount());
+            ps.setInt(3, post.getLikesCount());
+            ps.setBytes(4, post.getImage());
+
             return ps;
         }, generatedKeyHolder);
         Long id = (Long) generatedKeyHolder.getKeyList().get(0).get("id");
         post.setId(id);
+
+        tagRepository.linkToPost(post.getTags(), post.getId());
         return post;
     }
 

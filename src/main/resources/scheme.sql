@@ -39,13 +39,13 @@ BEGIN
     WHERE NOT EXISTS (
         SELECT FROM post_tags
         WHERE post_tags.tag_id = old.tag_id
-    );
+    ) AND old.tag_id = tags.tag;
     RETURN old;
 END;
 $$
     LANGUAGE plpgsql;
 
-CREATE TRIGGER auto_delete_tags
+CREATE OR REPLACE TRIGGER auto_delete_tags
     AFTER DELETE ON post_tags
     FOR EACH ROW EXECUTE PROCEDURE delete_redundant_tags();
 
@@ -62,7 +62,7 @@ $$
     LANGUAGE plpgsql;
 
 
-CREATE TRIGGER auto_create_tags
+CREATE OR REPLACE TRIGGER auto_create_tags
     BEFORE INSERT ON post_tags
     FOR EACH ROW EXECUTE PROCEDURE create_new_tags();
 
