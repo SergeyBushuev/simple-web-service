@@ -27,7 +27,7 @@ public class PostService implements IPostService {
         int offset = (pageNumber - 1) * pageSize;
 
         if (search == null || search.isEmpty()) {
-            return postRepository.getAllPosts(offset, pageSize);
+            return postRepository.getAllPosts(pageSize, offset);
         } else {
             return postRepository.getSearchPosts(search, pageSize, offset);
         }

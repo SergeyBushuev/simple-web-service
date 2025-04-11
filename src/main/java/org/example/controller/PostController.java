@@ -35,7 +35,7 @@ public class PostController {
                            @RequestParam(value = "search", defaultValue = "") String search,
                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                            @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber) {
-        List<PostFront> frontPosts = postService.getPosts(search, pageSize, pageNumber)
+        List<PostFront> frontPosts = postService.getPosts(search, pageNumber, pageSize)
                 .stream().map(dbToFrontMapper::dbToFront)
                 .toList();
         Paging paging = postService.generatePaging(pageSize, pageNumber);

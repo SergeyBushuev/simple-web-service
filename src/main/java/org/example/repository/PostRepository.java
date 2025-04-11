@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.example.repository.mappers.RowMappers.postRowMapper;
 
@@ -127,7 +126,8 @@ public class PostRepository implements IPostRepository {
     }
 
     @Override
-    public void delete(Post post) {
-
+    public void delete(long postId) {
+        String query = "DELETE FROM posts WHERE id = " + postId;
+        jdbcTemplate.update(query);
     }
 }
