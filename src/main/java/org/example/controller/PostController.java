@@ -104,7 +104,7 @@ public class PostController {
     @PostMapping("/posts/{id}/delete")
     public String deletePost(@PathVariable(value = "id") Long id) {
         postService.deletePostById(id);
-        return "redirect:/posts/";//TODO
+        return "redirect:/posts";
     }
 
     @PostMapping("/posts/{id}/comments")
@@ -116,7 +116,7 @@ public class PostController {
     @PostMapping("/posts/{id}/comments/{commentId}")
     public String editComment(@PathVariable(value = "id") Long id,
                               @PathVariable(value = "commentId") int commentId,
-                              @RequestParam(value = "tex") String text) {
+                              @RequestParam(value = "text") String text) {
         return "redirect:/posts/" + id;//TODO
     }
 

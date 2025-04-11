@@ -105,12 +105,12 @@ public class PostRepository implements IPostRepository {
     @Override
     public List<Post> getSearchPosts(String search, int pageSize, int offset) {
         Set<String> tagsArr = Set.of(search.trim().split(" "));
-        String tagsQuery = String.join( "', '", tagsArr.stream().map(String::trim).toList());
+        String tagsQuery = String.join( "'), LOWER('", tagsArr.stream().map(String::trim).toList());
 
         String sqlQuery =
                 "SELECT DISTINCT p.* from posts as p " +
                         "JOIN post_tags pt on p.id = pt.post_id " +
-                        "WHERE pt.tag_id in ('" + tagsQuery + "') " +
+                        "WHERE LOWER(pt.tag_id) in (LOWER('" + tagsQuery + "')) " +
                         "ORDER BY p.id " +
                         "LIMIT " + pageSize + " OFFSET " + offset;
 

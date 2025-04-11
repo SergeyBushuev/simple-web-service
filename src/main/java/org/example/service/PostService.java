@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,8 +49,11 @@ public class PostService implements IPostService {
         } catch (IOException e) {
             throw new RuntimeException("Can't load image", e);
         }
-        Set<String> tags = tagsString != null ? Set.of(tagsString.split(",")) : new HashSet<>();
-        Post post = new Post(NEW_ID, title, text, imageBytes, DEFAULT_LIKES, new ArrayList<Comment>(), tags);
+        Set<String> tags = tagsString != null ?
+                tagsStringToSet(tagsString) :
+                new HashSet<>();
+
+        Post post = new Post(NEW_ID, title, text, imageBytes, DEFAULT_LIKES, new ArrayList<>(), tags);
         return postRepository.save(post);
     }
 
@@ -81,7 +85,7 @@ public class PostService implements IPostService {
             throw new RuntimeException("Can't load image", e);
         }
 
-        Set<String> tags = tagsString != null ? Set.of(tagsString.split(" ")) : new HashSet<>();
+        Set<String> tags = tagsString != null ? tagsStringToSet(tagsString) : new HashSet<>();
         post.setTags(tags);
         return postRepository.update(post);
     }
@@ -96,4 +100,7 @@ public class PostService implements IPostService {
         return postRepository.getPostCount();
     }
 
+    private Set<String> tagsStringToSet(String tags) {
+        return Arrays.stream(tags.split(" ")).map(String::trim).collect(Collectors.toSet());
+    }
 }
