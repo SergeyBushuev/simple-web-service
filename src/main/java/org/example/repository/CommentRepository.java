@@ -5,8 +5,11 @@ import org.example.model.Post;
 import org.example.repository.interfaces.ICommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,11 +37,41 @@ public class CommentRepository implements ICommentRepository {
 
     @Override
     public Comment save(Comment comment) {
-        return null;
+        if (comment.getId() < 0) {
+            return createNewCommit(comment);
+        } else {
+            return updateNewCommit(comment);
+        }
     }
 
     @Override
     public void deleteById(Long id) {
-
+        String sqlQuery = "DELETE FROM comments where id = ?";
+        jdbcTemplate.update(sqlQuery, id);
     }
+
+    private Comment createNewCommit(Comment comment){
+        String sqlQuery = "INSERT INTO comments (post_id, text) VALUES (?,?)";
+        jdbcTemplate.update(sqlQuery, comment.getPostId(), comment.getText());
+        return comment;
+    }
+
+    private Comment updateNewCommit(Comment comment){
+        String sqlQuery = "UPDATE comments set text = ? where id = ?";
+        Object[] params = {extractText(comment), comment.getId()};
+        jdbcTemplate.update(sqlQuery, params);
+
+        return comment;
+    }
+
+    private String extractText(Comment comment) {
+        String text;
+        if (comment.getText() == null || comment.getText().isEmpty()) {
+            text = "USER FORGOT TO WRITE SOME TEXT";
+        } else {
+            text = comment.getText();
+        }
+        return text;
+    }
+
 }

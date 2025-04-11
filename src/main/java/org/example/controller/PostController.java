@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.controller.mapper.dbToFrontMapper;
 import org.example.controller.model.Paging;
 import org.example.controller.model.PostFront;
+import org.example.model.Comment;
 import org.example.model.Post;
 import org.example.service.interfaces.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,20 +111,23 @@ public class PostController {
     @PostMapping("/posts/{id}/comments")
     public String addComment(@PathVariable(value = "id") Long id,
                              @RequestParam(value = "text") String text) {
-        return "redirect:/posts/" + id;//TODO
+        postService.createComment(id, text);
+        return "redirect:/posts/" + id;
     }
 
     @PostMapping("/posts/{id}/comments/{commentId}")
     public String editComment(@PathVariable(value = "id") Long id,
-                              @PathVariable(value = "commentId") int commentId,
+                              @PathVariable(value = "commentId") Long commentId,
                               @RequestParam(value = "text") String text) {
-        return "redirect:/posts/" + id;//TODO
+        postService.editComment(commentId, id, text);
+        return "redirect:/posts/" + id;
     }
 
     @PostMapping("/posts/{id}/comments/{commentId}/delete")
     public String deleteComment(@PathVariable(value = "id") Long id,
-                                @PathVariable(value = "commentId") int commentId) {
-        return "redirect:/posts" + id;//TODO
+                                @PathVariable(value = "commentId") Long commentId) {
+        postService.deleteCommentById(commentId);
+        return "redirect:/posts/" + id;
     }
 
     @GetMapping("/images/{id}")

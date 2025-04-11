@@ -1,9 +1,9 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.controller.model.Paging;
 import org.example.model.Comment;
 import org.example.model.Post;
+import org.example.repository.CommentRepository;
 import org.example.repository.interfaces.IPostRepository;
 import org.example.service.interfaces.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,9 @@ public class PostService implements IPostService {
     IPostRepository postRepository;
 
     private final int DEFAULT_LIKES = 0;
-    private final int NEW_ID = -1;
+    private final long NEW_ID = -1;
+    @Autowired
+    private CommentRepository commentRepository;
 
     public List<Post> getPosts(String search, int pageNumber, int pageSize) {
         long postCount = postRepository.getPostCount();
@@ -98,6 +100,29 @@ public class PostService implements IPostService {
     @Override
     public int getPostCount() {
         return postRepository.getPostCount();
+    }
+
+    @Override
+    public Comment createComment(long postId, String text) {
+        Comment comment = new Comment();
+        comment.setId(NEW_ID);
+        comment.setPostId(postId);
+        comment.setText(text);
+        return commentRepository.save(comment);
+    }
+
+    @Override
+    public Comment editComment(long id, long postId, String text) {
+        Comment comment = new Comment();
+        comment.setId(id);
+        comment.setPostId(postId);
+        comment.setText(text);
+        return commentRepository.save(comment);
+    }
+
+    @Override
+    public void deleteCommentById(long id) {
+        commentRepository.deleteById(id);
     }
 
     private Set<String> tagsStringToSet(String tags) {

@@ -1,6 +1,7 @@
 package org.example.service.interfaces;
 
 import org.example.controller.model.Paging;
+import org.example.model.Comment;
 import org.example.model.Post;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,4 +24,10 @@ public interface IPostService {
     void deletePostById(long id);
 
     int getPostCount();
+
+    Comment createComment(long postId, String text);
+
+    Comment editComment(long id, long postId, String text);
+
+    void deleteCommentById(long id);
 }

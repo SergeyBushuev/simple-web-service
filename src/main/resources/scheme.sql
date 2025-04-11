@@ -65,37 +65,3 @@ $$
 CREATE OR REPLACE TRIGGER auto_create_tags
     BEFORE INSERT ON post_tags
     FOR EACH ROW EXECUTE PROCEDURE create_new_tags();
-
-
--- INSERT INTO posts VALUES
---                       (default, 'newArticle4', 'tetetetetete', NULL, default);
---
--- INSERT INTO tags VALUES
---     ('tag');
---
--- INSERT INTO post_tags VALUES
---                       (1, 'tag');
---
--- SELECT * FROM posts
--- JOIN post_tags on posts.id = post_tags.post_id AND post_tags.tag_id='tag';
---
-INSERT INTO comments VALUES
-                      (default, 1, 'nice2!');
---
--- SELECT * FROM comments
---     where comments.post_id = 1;
---
--- SELECT tags.tag FROM tags
--- JOIN post_tags pt on tags.tag = pt.tag_id WHERE pt.post_id=1
-
-delete from post_tags where post_tags.post_id = 10;
-
-SELECT DISTINCT * from posts as p
-ORDER BY p.id DESC;
-
-
-SELECT DISTINCT * from posts as p
-         JOIN post_tags pt on p.id = pt.post_id
-         WHERE pt.tag_id in ('tag', 'GOOSE')
-            ORDER BY p.id
-            LIMIT 3 OFFSET 3
