@@ -20,5 +20,7 @@ public interface IPostRepository {
 
     List<Post> getAllPosts(int pageSize, int offset);
 
+    List<Post> getSearchPosts(String search, int pageSize, int offset);
+
     void delete(Post post);
 }

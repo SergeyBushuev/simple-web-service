@@ -1,7 +1,6 @@
 package org.example.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.example.controller.model.Paging;
 import org.example.model.Comment;
 import org.example.model.Post;
 import org.example.repository.interfaces.IPostRepository;
@@ -12,9 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.example.repository.mappers.RowMappers.postRowMapper;
 
@@ -52,8 +50,8 @@ public class PostRepository implements IPostRepository {
     @Override
     public void like(Long postId, boolean like) {
         String query = "UPDATE posts AS p" +
-        " SET likes = p.likes + " + (like ? 1 : -1) +
-        " WHERE p.id = " + postId;
+                " SET likes = p.likes + " + (like ? 1 : -1) +
+                " WHERE p.id = " + postId;
         jdbcTemplate.update(query);
     }
 
@@ -98,6 +96,23 @@ public class PostRepository implements IPostRepository {
     @Override
     public List<Post> getAllPosts(int pageSize, int offset) {
         String sqlQuery = "SELECT * FROM posts ORDER BY posts.id DESC LIMIT " + pageSize + " OFFSET " + offset;
+        List<Post> posts = jdbcTemplate.query(sqlQuery, postRowMapper);
+
+        return posts.stream().peek(this::setTagsAntComments).toList();
+    }
+
+    @Override
+    public List<Post> getSearchPosts(String search, int pageSize, int offset) {
+        Set<String> tagsArr = Set.of(search.trim().split(" "));
+        String tagsQuery = String.join( "', '", tagsArr.stream().map(String::trim).toList());
+
+        String sqlQuery =
+                "SELECT DISTINCT p.* from posts as p " +
+                        "JOIN post_tags pt on p.id = pt.post_id " +
+                        "WHERE pt.tag_id in ('" + tagsQuery + "') " +
+                        "ORDER BY p.id " +
+                        "LIMIT " + pageSize + " OFFSET " + offset;
+
         List<Post> posts = jdbcTemplate.query(sqlQuery, postRowMapper);
 
         return posts.stream().peek(this::setTagsAntComments).toList();

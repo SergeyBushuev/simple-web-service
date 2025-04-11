@@ -91,11 +91,12 @@ public class PostController {
     public String likePost(@PathVariable(value = "id") Long id,
                            @RequestParam(value = "like") boolean like) {
         postService.likePost(id, like);
-        return "redirect:/posts/" + id;//TODO
+        return "redirect:/posts/" + id;
     }
 
     @PostMapping("/posts/{id}/delete")
     public String deletePost(@PathVariable(value = "id") Long id) {
+
         return "redirect:/posts/";//TODO
     }
 
