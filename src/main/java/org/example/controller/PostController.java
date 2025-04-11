@@ -6,6 +6,9 @@ import org.example.controller.model.PostFront;
 import org.example.model.Post;
 import org.example.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +31,7 @@ public class PostController {
     public String getPosts(@RequestParam(value = "search", defaultValue = "") String search,
                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                            @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber) {
-        return "posts";
+        return "posts"; //TODO
     }
 
     @GetMapping("/posts/{id}")
@@ -45,12 +48,12 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public String addPost(@RequestParam(value = "title") String title,
-                          @RequestParam(value = "text") String text,
-                          @RequestParam(value = "image") MultipartFile image,
-                          @RequestParam(value = "tags") String tags) {
-
-        return "redirect:/posts/" /* TODO +postID */;
+    public String addPost(@RequestPart(value = "title", required = false) String title,
+                          @RequestPart(value = "text", required = false) String text,
+                          @RequestPart(value = "tags", required = false) String tags,
+                          @RequestPart(value = "image", required = false) MultipartFile image) {
+        Post post = postService.createPost(title, text, image, tags);
+        return "redirect:/posts/" + post.getId();
     }
 
     @GetMapping("/posts/{id}/edit")
@@ -61,61 +64,54 @@ public class PostController {
         return "add-post";
     }
 
-//    @PostMapping("/posts/{id}")
-//    public String editPost(@PathVariable(value = "id") Long id,
-//                           @RequestParam(value = "title") String title,
-//                           @RequestParam(value = "text") String text,
-//                           @RequestParam(value = "image") MultipartFile image,
-//                           @RequestParam(value = "tags") String tags) {
-//        Post post = postService.editPost(id, title, text, image, tags);
-//        return "redirect:/posts/" + post.getId();
-//    }
-
-    @PostMapping("/posts/{id}")
+    @PostMapping(value = "/posts/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public String editPost(@PathVariable(value = "id") Long id,
-                           @RequestPart("title") String title,
-                           @RequestPart("text") String text,
-                           @RequestPart("tags") String tags,
-                           @RequestPart("image") MultipartFile image
+                           @RequestPart(value = "title", required = false) String title,
+                           @RequestPart(value = "text", required = false) String text,
+                           @RequestPart(value = "tags", required = false) String tags,
+                           @RequestPart(value = "image", required = false) MultipartFile image
                            ) {
         Post post = postService.editPost(id, title, text, image, tags);
         return "redirect:/posts/" + post.getId();
     }
-//    @RequestBody
 
     @PostMapping("/posts/{id}/like")
     public String likePost(@PathVariable(value = "id") Long id,
                            @RequestParam(value = "like") boolean like) {
-        return "redirect:/posts/" + id;
+        return "redirect:/posts/" + id;//TODO
     }
 
     @PostMapping("/posts/{id}/delete")
     public String deletePost(@PathVariable(value = "id") Long id) {
-        return "redirect:/posts/";
+        return "redirect:/posts/";//TODO
     }
 
     @PostMapping("/posts/{id}/comments")
     public String addComment(@PathVariable(value = "id") Long id,
                              @RequestParam(value = "text") String text) {
-        return "redirect:/posts/" + id;
+        return "redirect:/posts/" + id;//TODO
     }
 
     @PostMapping("/posts/{id}/comments/{commentId}")
     public String editComment(@PathVariable(value = "id") Long id,
                               @PathVariable(value = "commentId") int commentId,
                               @RequestParam(value = "tex") String text) {
-        return "redirect:/posts/" + id;
+        return "redirect:/posts/" + id;//TODO
     }
 
     @PostMapping("/posts/{id}/comments/{commentId}/delete")
     public String deleteComment(@PathVariable(value = "id") Long id,
                                 @PathVariable(value = "commentId") int commentId) {
-        return "redirect:/posts" + id;
+        return "redirect:/posts" + id;//TODO
     }
 
     @GetMapping("/images/{id}")
-    public String getImage(@PathVariable(value = "id") Long id) {
-        return null; /* TODO image load*/
+    public ResponseEntity<ByteArrayResource> getImage(@PathVariable(value = "id") Long id) {
+        byte[] image = postService.getImageByPostId(id);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(new ByteArrayResource(image));
     }
 
 }
