@@ -27,8 +27,8 @@ public class TagRepository implements ITagRepository {
 
     @Override
     public Set<String> linkToPost(Set<String> tags, Long postId) {
-        String query = "INSERT INTO post_tags (post_id, tag_id) VALUES (" + postId + ", '" + String.join("'), (" + postId + ", '", tags) + "')" +
-                " ON CONFLICT (post_id, tag_id) DO NOTHING;";
+        String query = "INSERT INTO post_tags (post_id, tag_id) " +
+                "VALUES (" + postId + ", '" + String.join("'), (" + postId + ", '", tags) + "');";
         jdbcTemplate.update(query);
         return new HashSet<>(tags);
     }

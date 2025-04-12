@@ -40,7 +40,7 @@ public class PostService implements IPostService {
     @Override
     public Post getPostById(long id) {
         Optional<Post> post = postRepository.findById(id);
-        return post.orElse(null); //TODO доделать нормально...
+        return post.orElseThrow(() -> new RuntimeException("Post not found")); //TODO доделать нормально...
     }
 
     @Override

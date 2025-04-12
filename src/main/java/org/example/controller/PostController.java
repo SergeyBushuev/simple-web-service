@@ -68,9 +68,9 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public String addPost(@RequestPart(value = "title", required = false) String title,
-                          @RequestPart(value = "text", required = false) String text,
-                          @RequestPart(value = "tags", required = false) String tags,
+    public String addPost(@RequestParam(value = "title") String title,
+                          @RequestParam(value = "text") String text,
+                          @RequestParam(value = "tags", required = false) String tags,
                           @RequestPart(value = "image", required = false) MultipartFile image) {
         Post post = postService.createPost(title, text, image, tags);
         return "redirect:/posts/" + post.getId();
@@ -86,9 +86,9 @@ public class PostController {
 
     @PostMapping(value = "/posts/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public String editPost(@PathVariable(value = "id") Long id,
-                           @RequestPart(value = "title", required = false) String title,
-                           @RequestPart(value = "text", required = false) String text,
-                           @RequestPart(value = "tags", required = false) String tags,
+                           @RequestParam(value = "title", required = false) String title,
+                           @RequestParam(value = "text", required = false) String text,
+                           @RequestParam(value = "tags", required = false) String tags,
                            @RequestPart(value = "image", required = false) MultipartFile image
     ) {
         Post post = postService.editPost(id, title, text, image, tags);
