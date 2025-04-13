@@ -37,7 +37,7 @@ public class PostServiceTest {
     private PostService postService;
 
     @Test
-    void addPost_OkTest() {
+    void addPost_Ok_Test() {
 
 
         when(postRepository.save(any())).thenAnswer(invocation -> {
@@ -54,7 +54,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void getPostById_OkTest() {
+    void getPostById_Ok_Test() {
         Post post = new Post(1, "title", "text", "image test bytes".getBytes(), 0, new ArrayList<>(), Set.of("tag", "tag2"));
 
         when(postRepository.findById(1L)).thenReturn(Optional.of(post));
@@ -67,7 +67,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void getPostById_NotFountExceptionTest() {
+    void getPostById_NotFountException_Test() {
         when(postRepository.findById(1L)).thenReturn(Optional.empty());
 
         Exception e = assertThrows(RuntimeException.class, () -> postService.getPostById(1L));
@@ -75,7 +75,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void getPosts_OkTest() {
+    void getPosts_Ok_Test() {
         Post post = new Post(1, "title", "text", new byte[5], 0, new ArrayList<>(), Set.of("tag", "tag2"));
         Post post2 = new Post(2, "title2", "text2", new byte[5], 0, new ArrayList<>(), Set.of("tag", "tag2"));
         Post post3 = new Post(3, "title3", "text3", new byte[5], 0, new ArrayList<>(), Set.of("tag2", "tag3"));
@@ -86,7 +86,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void updatePosts_OkTest() {
+    void updatePosts_Ok_Test() {
         Post post = new Post(1, "title", "text", new byte[5], 0, new ArrayList<>(), Set.of("tag", "tag2"));
 
         MultipartFile image = createMultipartFile();
@@ -104,7 +104,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void updatePosts_PostNotFoundExceptionTest() {
+    void updatePosts_PostNotFoundException_Test() {
         MultipartFile image = createMultipartFile();
 
         when(postRepository.findById(70000)).thenReturn(Optional.empty());
@@ -115,13 +115,13 @@ public class PostServiceTest {
     }
 
     @Test
-    void deletePost_DeletePostOkTest() {
+    void deletePost_DeletePostOk_Test() {
         postService.deletePostById(1);
         verify(postRepository).delete(1);
     }
 
     @Test
-    void addComment_addCommentOkTest() {
+    void addComment_addCommentOk_Test() {
 
         Comment comment = new Comment(1L, 1L, "newComment");
         Post post = new Post(1, "title", "text", new byte[5], 0, List.of(comment), Set.of("tag", "tag2"));
@@ -135,7 +135,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void addComment_PostNotFoundTest() {
+    void addComment_PostNotFound_Test() {
         when(postRepository.findById(1L)).thenReturn(Optional.empty());
         Exception e = assertThrows(RuntimeException.class, () ->
                 postService.addComment(1L, "newComment"));
@@ -144,7 +144,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void editComment_editCommentOkTest() {
+    void editComment_editCommentOk_Test() {
         Comment comment = new Comment(1L, 1L, "newComment");
 
         when(commentRepository.findById(1L)).thenReturn(Optional.of(comment));
@@ -156,7 +156,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void editComment_CommentNotFoundTest() {
+    void editComment_CommentNotFound_Test() {
         when(commentRepository.findById(1L)).thenReturn(Optional.empty());
         Exception e = assertThrows(RuntimeException.class, () ->
                 postService.editComment(1L, 1L, "newComment"));
@@ -166,7 +166,7 @@ public class PostServiceTest {
 
 
     @Test
-    void deleteComment_deleteComnetOkTest() {
+    void deleteComment_deleteComnetOk_Test() {
 
         when(commentRepository.findById(1L)).thenReturn(Optional.of(new Comment()));
 
@@ -175,7 +175,7 @@ public class PostServiceTest {
     }
 
     @Test
-    void deleteComment_CommentNotFoundTest() {
+    void deleteComment_CommentNotFound_Test() {
 
         when(commentRepository.findById(1L)).thenReturn(Optional.empty());
 

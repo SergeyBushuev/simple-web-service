@@ -22,7 +22,7 @@ public class CommentRepositoryTest {
     private CommentRepository commentRepository;
 
     @Test
-    void addComment_addCommentOkTest() {
+    void addComment_addCommentOk_Test() {
         Comment comment = new Comment(-1L, 1L, "newTestComment");
 
         Comment addedComment = commentRepository.addNewComment(comment);
@@ -35,7 +35,7 @@ public class CommentRepositoryTest {
     }
 
     @Test
-    void editComment_editCommentOkTest() {
+    void editComment_editCommentOk_Test() {
         Comment comment = new Comment(-1L, 1L, "newTestComment");
 
         Comment addedCommit = commentRepository.addNewComment(comment);
@@ -49,7 +49,7 @@ public class CommentRepositoryTest {
     }
 
     @Test
-    void findComment_findCommentForPostOkTest() {
+    void findComment_findCommentForPostOk_Test() {
         Comment comment = new Comment(-1L, 1L, "newTestComment1");
         Comment comment2 = new Comment(-1L, 1L, "newTestComment2");
 
@@ -61,13 +61,13 @@ public class CommentRepositoryTest {
     }
 
     @Test
-    void findComment_CommentNotFoundOkTest() {
+    void findComment_CommentNotFoundOk_Test() {
         List<Comment> comments = commentRepository.findByPostId(5L);
         assertEquals(0, comments.size());
     }
 
     @Test
-    void deleteComment_deleteCommentOkTest() {
+    void deleteComment_deleteCommentOk_Test() {
         Comment comment = new Comment();
         comment.setPostId(1L);
         comment.setText("delete this comment");
