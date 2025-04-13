@@ -1,6 +1,5 @@
 package org.example.repository.interfaces;
 
-import java.util.List;
 import java.util.Set;
 
 public interface ITagRepository {
@@ -9,5 +8,5 @@ public interface ITagRepository {
 
     Set<String> linkToPost(Set<String> name, Long postId);
 
-    void unLinkToPost(Long postId);
+    void unLinkFromPost(Long postId);
 }

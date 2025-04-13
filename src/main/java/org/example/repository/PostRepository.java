@@ -61,7 +61,7 @@ public class PostRepository implements IPostRepository {
         String query = "update posts set title = ?, text = ?, image = ? where id = ?";
         jdbcTemplate.update(query, post.getTitle(), post.getText(), post.getImage(), post.getId());
 
-        tagRepository.unLinkToPost(post.getId());
+        tagRepository.unLinkFromPost(post.getId());
         tagRepository.linkToPost(post.getTags(), post.getId());
         return post;
     }

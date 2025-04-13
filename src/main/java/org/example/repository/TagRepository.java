@@ -34,7 +34,7 @@ public class TagRepository implements ITagRepository {
     }
 
     @Override
-    public void unLinkToPost(Long postId) {
+    public void unLinkFromPost(Long postId) {
         String query = "DELETE FROM post_tags WHERE post_id=" + postId;
         jdbcTemplate.update(query);
     }
