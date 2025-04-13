@@ -49,7 +49,7 @@ public class CommentRepositoryTest {
     }
 
     @Test
-    void testFindByPostId() {
+    void findComment_findCommentForPostOkTest() {
         Comment comment = new Comment(-1L, 1L, "newTestComment1");
         Comment comment2 = new Comment(-1L, 1L, "newTestComment2");
 
@@ -61,10 +61,16 @@ public class CommentRepositoryTest {
     }
 
     @Test
-    void testDeleteById() {
+    void findComment_CommentNotFoundOkTest() {
+        List<Comment> comments = commentRepository.findByPostId(5L);
+        assertEquals(0, comments.size());
+    }
+
+    @Test
+    void deleteComment_deleteCommentOkTest() {
         Comment comment = new Comment();
         comment.setPostId(1L);
-        comment.setText("Комментарий для удаления");
+        comment.setText("delete this comment");
         Comment saved = commentRepository.addNewComment(comment);
         Long id = saved.getId();
         assertEquals(4, id);
