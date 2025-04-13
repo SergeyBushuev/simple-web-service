@@ -18,6 +18,8 @@ public interface IPostRepository {
 
     int getPostCount();
 
+    int getPostCount(String search);
+
     List<Post> getAllPosts(int pageSize, int offset);
 
     List<Post> getSearchPosts(String search, int pageSize, int offset);

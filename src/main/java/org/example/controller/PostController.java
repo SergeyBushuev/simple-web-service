@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.controller.mapper.dbToFrontMapper;
 import org.example.controller.model.Paging;
 import org.example.controller.model.PostFront;
-import org.example.model.Comment;
 import org.example.model.Post;
 import org.example.service.interfaces.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -40,7 +40,7 @@ public class PostController {
                 .stream().map(dbToFrontMapper::dbToFront)
                 .toList();
 
-        int postCount = postService.getPostCount();
+        int postCount = postService.getPostCount("");
         Paging paging = new Paging(
                 pageNumber,
                 pageSize,
@@ -67,12 +67,12 @@ public class PostController {
         return "add-post";
     }
 
-    @PostMapping("/posts")
+    @PostMapping(value = "/posts", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public String addPost(@RequestParam(value = "title") String title,
                           @RequestParam(value = "text") String text,
                           @RequestParam(value = "tags", required = false) String tags,
                           @RequestPart(value = "image", required = false) MultipartFile image) {
-        Post post = postService.createPost(title, text, image, tags);
+        Post post = postService.addPost(title, text, image, tags);
         return "redirect:/posts/" + post.getId();
     }
 
@@ -90,7 +90,10 @@ public class PostController {
                            @RequestParam(value = "text", required = false) String text,
                            @RequestParam(value = "tags", required = false) String tags,
                            @RequestPart(value = "image", required = false) MultipartFile image
-    ) {
+    ) throws IOException {
+        if (image.getBytes() == null) {
+            throw new RuntimeException("image is null");
+        }
         Post post = postService.editPost(id, title, text, image, tags);
         return "redirect:/posts/" + post.getId();
     }
@@ -111,7 +114,7 @@ public class PostController {
     @PostMapping("/posts/{id}/comments")
     public String addComment(@PathVariable(value = "id") Long id,
                              @RequestParam(value = "text") String text) {
-        postService.createComment(id, text);
+        postService.addComment(id, text);
         return "redirect:/posts/" + id;
     }
 

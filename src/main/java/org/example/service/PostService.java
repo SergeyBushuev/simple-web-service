@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.model.Comment;
 import org.example.model.Post;
 import org.example.repository.CommentRepository;
+import org.example.repository.interfaces.ICommentRepository;
 import org.example.repository.interfaces.IPostRepository;
 import org.example.service.interfaces.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +18,15 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PostService implements IPostService {
+    private final int DEFAULT_LIKES = 0;
+    private final long NEW_ID = -1;
+
+    @Autowired
+    private ICommentRepository commentRepository;
     @Autowired
     IPostRepository postRepository;
 
-    private final int DEFAULT_LIKES = 0;
-    private final long NEW_ID = -1;
-    @Autowired
-    private CommentRepository commentRepository;
-
     public List<Post> getPosts(String search, int pageNumber, int pageSize) {
-        long postCount = postRepository.getPostCount();
         int offset = (pageNumber - 1) * pageSize;
 
         if (search == null || search.isEmpty()) {
@@ -40,11 +40,11 @@ public class PostService implements IPostService {
     @Override
     public Post getPostById(long id) {
         Optional<Post> post = postRepository.findById(id);
-        return post.orElseThrow(() -> new RuntimeException("Post not found")); //TODO доделать нормально...
+        return post.orElseThrow(() -> new RuntimeException(String.format("Post with id %s not found", id)));
     }
 
     @Override
-    public Post createPost(String title, String text, MultipartFile image, String tagsString) {
+    public Post addPost(String title, String text, MultipartFile image, String tagsString) {
         byte[] imageBytes;
         try {
             imageBytes = image.getBytes();
@@ -74,7 +74,7 @@ public class PostService implements IPostService {
     public Post editPost(long id, String title, String text, MultipartFile image, String tagsString) {
         Optional<Post> optPost = postRepository.findById(id);
         if (optPost.isEmpty()) {
-            throw new RuntimeException("No such post existed");
+            throw new RuntimeException(String.format("Post with id %s not found", id));
         }
 
         Post post = optPost.get();
@@ -98,12 +98,20 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public int getPostCount() {
+    public int getPostCount(String search) {
+        if (search!= null && !search.isEmpty()) {
+            return postRepository.getPostCount(search);
+        }
         return postRepository.getPostCount();
     }
 
     @Override
-    public Comment createComment(long postId, String text) {
+    public Comment addComment(long postId, String text) {
+        Optional<Post> post = postRepository.findById(postId);
+        if (post.isEmpty()) {
+            throw new RuntimeException(String.format("Post with id %s not found", postId));
+        }
+
         Comment comment = new Comment();
         comment.setId(NEW_ID);
         comment.setPostId(postId);
@@ -113,6 +121,13 @@ public class PostService implements IPostService {
 
     @Override
     public Comment editComment(long id, long postId, String text) {
+
+        Optional<Comment> optComment = commentRepository.findById(id);
+        if (optComment.isEmpty()) {
+            throw new RuntimeException(String.format("Comment with id %s on post %s not found", id, postId));
+        }
+
+
         Comment comment = new Comment();
         comment.setId(id);
         comment.setPostId(postId);
@@ -122,6 +137,10 @@ public class PostService implements IPostService {
 
     @Override
     public void deleteCommentById(long id) {
+        Optional<Comment> optComment = commentRepository.findById(id);
+        if (optComment.isEmpty()) {
+            throw new RuntimeException(String.format("Comment with id %s not found", id));
+        }
         commentRepository.deleteById(id);
     }
 

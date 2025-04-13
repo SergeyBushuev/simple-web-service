@@ -95,6 +95,18 @@ public class PostRepository implements IPostRepository {
     }
 
     @Override
+    public int getPostCount(String search) {
+        Set<String> tagsArr = Set.of(search.trim().split(" "));
+        String tagsQuery = String.join( "'), LOWER('", tagsArr.stream().map(String::trim).toList());
+
+        String sqlQuery =
+                "SELECT DISTINCT COUNT(p.*) from posts as p " +
+                        "JOIN post_tags pt on p.id = pt.post_id " +
+                        "WHERE LOWER(pt.tag_id) in (LOWER('" + tagsQuery + "'))";
+        return jdbcTemplate.queryForObject(sqlQuery, Integer.class);
+    }
+
+    @Override
     public List<Post> getAllPosts(int pageSize, int offset) {
         String sqlQuery = "SELECT * FROM posts ORDER BY posts.id DESC LIMIT " + pageSize + " OFFSET " + offset;
         List<Post> posts = jdbcTemplate.query(sqlQuery, postRowMapper);
