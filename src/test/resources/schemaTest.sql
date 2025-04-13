@@ -44,17 +44,17 @@ CREATE TRIGGER IF NOT EXISTS auto_create_tags
 
 
 INSERT INTO posts (title, text, image, likes)
-VALUES ('Test Post One', 'Why did the goose cross the road?', x'89504E470D0A1A0A', 3);
+VALUES ('Test Post One', 'Why did the goose cross the road?', '0xffffff', 3);
 INSERT INTO posts (title, text, image, likes)
-VALUES ('Test Post Two', 'To get to the other side!', x'FFD8FFE000104A464946', 4);
+VALUES ('Test Post Two', 'To get to the other side!', '0xffffff', 4);
 INSERT INTO posts (title, text, image, likes)
-VALUES ('Test Post Three', 'Oh, i think it was chicken', x'89504E470D0A1A0A', 5);
+VALUES ('Test Post Three', 'Oh, i think it was chicken', '0xffffff', 5);
 INSERT INTO posts (title, text, image, likes)
-VALUES ('Test Post Four', 'Anyway...', x'FFD8FFE000104A464946', -7);
+VALUES ('Test Post Four', 'Anyway...', '0xffffff', -7);
 INSERT INTO posts (title, text, image, likes)
-VALUES ('Test Post Five', 'Gooses a way netter than chicken', x'89504E470D0A1A0A', 9);
+VALUES ('Test Post Five', 'Gooses a way netter than chicken', '0xffffff', 9);
 INSERT INTO posts (title, text, image, likes)
-VALUES ('Test Post Six', 'Oh, hi Mark!', x'FFD8FFE000104A464946', 0);
+VALUES ('Test Post Six', 'Oh, hi Mark!', '0xffffff', 0);
 
 INSERT INTO comments (post_id, text)
 VALUES (1, 'nice!');

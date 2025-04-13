@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.controller.model.Paging;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.example.config.DataSourceConfiguration;
 import org.example.config.WebConfiguration;
 
+import static org.example.utils.TestUtils.createMultipartFile;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -50,6 +52,8 @@ class PostControllerTest {
 
     @Test
     void getPosts_PostsPageOk_Test() throws Exception {
+        Paging paging = new Paging(1, 10, false, false);
+
         mockMvc.perform(get("/posts")
                         .param("search", "")
                         .param("pageSize", "10")
@@ -57,6 +61,9 @@ class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(view().name("posts"))
+                .andExpect(model().attributeExists("posts"))
+                .andExpect(model().attributeExists("paging"))
+                .andExpect(model().attribute("paging", paging))
                 .andExpect(xpath("//table/tr").nodeCount(7))
                 .andExpect(xpath("//table/tr[2]/td/h2").string("Test Post Six"));
     }
@@ -120,6 +127,29 @@ class PostControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/posts"));
     }
+    @Test
+    void likePost_likePostOk_Test() throws Exception {
+        mockMvc.perform(post("/posts/1/like")
+                        .param("like", "true"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/posts/1"));
+        mockMvc.perform(get("/posts/1"))
+                .andExpect(status().isOk()) ////table/tr[2]/td/p/form/span[1]
+                .andExpect(xpath("//h2").string("Test Post One"))
+                .andExpect(xpath("//table/tr[2]/td/p/form/span[1]").string("4"));
+    }
+
+    @Test
+    void likePost_dislikePostOk_Test() throws Exception {
+        mockMvc.perform(post("/posts/1/like")
+                        .param("like", "false"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/posts/1"));
+        mockMvc.perform(get("/posts/1"))
+                .andExpect(status().isOk()) ////table/tr[2]/td/p/form/span[1]
+                .andExpect(xpath("//h2").string("Test Post One"))
+                .andExpect(xpath("//table/tr[2]/td/p/form/span[1]").string("2"));
+    }
 
     @Test
     void addComment_AddCommentOk_Test() throws Exception {
@@ -127,6 +157,10 @@ class PostControllerTest {
                         .param("text", "New comment"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/posts/1"));
+        mockMvc.perform(get("/posts/1"))
+                .andExpect(status().isOk())
+                .andExpect(xpath("//h2").string("Test Post One"))
+                .andExpect(xpath("//table/tr[7]//span[@id='comment4']").string("New comment"));
     }
 
     @Test
@@ -135,6 +169,10 @@ class PostControllerTest {
                         .param("text", "Updated comment"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/posts/1"));
+        mockMvc.perform(get("/posts/1"))
+                .andExpect(status().isOk())
+                .andExpect(xpath("//h2").string("Test Post One"))
+                .andExpect(xpath("//table/tr[5]//span[@id='comment1']").string("Updated comment"));
     }
 
     @Test
@@ -151,11 +189,4 @@ class PostControllerTest {
                 .andExpect(content().contentType(MediaType.IMAGE_JPEG));
     }
 
-    private MockMultipartFile createMultipartFile() {
-        return new MockMultipartFile(
-                "image",
-                "testImage.jpg",
-                "image/jpeg",
-                "image bytes".getBytes());
-    }
 }
