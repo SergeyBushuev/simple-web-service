@@ -70,7 +70,6 @@ public class PostRepository implements IPostRepository {
     public Post save(Post post) {
         String sqlQuery = "INSERT INTO posts (title, text, likes, image) VALUES (?, ?, ?, ?)";
 
-
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(conn -> {
             PreparedStatement ps = conn.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);

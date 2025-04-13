@@ -11,7 +11,9 @@ public interface ICommentRepository {
 
     List<Comment> findByPostId(Long postId);
 
-    Comment save(Comment comment);
-
     void deleteById(Long id);
+
+    Comment addNewComment(Comment comment);
+
+    Comment editComment(Comment comment);
 }

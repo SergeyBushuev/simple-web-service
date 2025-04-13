@@ -3,7 +3,6 @@ package org.example.service;
 import lombok.RequiredArgsConstructor;
 import org.example.model.Comment;
 import org.example.model.Post;
-import org.example.repository.CommentRepository;
 import org.example.repository.interfaces.ICommentRepository;
 import org.example.repository.interfaces.IPostRepository;
 import org.example.service.interfaces.IPostService;
@@ -116,7 +115,7 @@ public class PostService implements IPostService {
         comment.setId(NEW_ID);
         comment.setPostId(postId);
         comment.setText(text);
-        return commentRepository.save(comment);
+        return commentRepository.addNewComment(comment);
     }
 
     @Override
@@ -132,7 +131,7 @@ public class PostService implements IPostService {
         comment.setId(id);
         comment.setPostId(postId);
         comment.setText(text);
-        return commentRepository.save(comment);
+        return commentRepository.editComment(comment);
     }
 
     @Override

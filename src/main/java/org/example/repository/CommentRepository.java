@@ -1,13 +1,13 @@
 package org.example.repository;
 
 import org.example.model.Comment;
-import org.example.model.Post;
 import org.example.repository.interfaces.ICommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -24,24 +24,17 @@ public class CommentRepository implements ICommentRepository {
     @Override
     public Optional<Comment> findById(Long id) {
         String sqlQuery = "select * from comments where id = " + id;
-        List<Comment> posts = jdbcTemplate.query(sqlQuery, commentRowMapper);
-        return Optional.of(posts.getFirst());
+        List<Comment> comment = jdbcTemplate.query(sqlQuery, commentRowMapper);
+        if (comment.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(comment.getFirst());
     }
 
     @Override
     public List<Comment> findByPostId(Long postId) {
         String sqlQuery = "SELECT * FROM comments where comments.post_id = " + postId;
-        List<Comment> posts = jdbcTemplate.query(sqlQuery, commentRowMapper);
-        return posts;
-    }
-
-    @Override
-    public Comment save(Comment comment) {
-        if (comment.getId() < 0) {
-            return createNewCommit(comment);
-        } else {
-            return updateNewCommit(comment);
-        }
+        return jdbcTemplate.query(sqlQuery, commentRowMapper);
     }
 
     @Override
@@ -50,13 +43,24 @@ public class CommentRepository implements ICommentRepository {
         jdbcTemplate.update(sqlQuery, id);
     }
 
-    private Comment createNewCommit(Comment comment){
+    @Override
+    public Comment addNewComment(Comment comment){
         String sqlQuery = "INSERT INTO comments (post_id, text) VALUES (?,?)";
-        jdbcTemplate.update(sqlQuery, comment.getPostId(), comment.getText());
+        GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(conn -> {
+            PreparedStatement ps = conn.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+            ps.setBigDecimal(1, BigDecimal.valueOf(comment.getPostId()));
+            ps.setString(2, comment.getText());
+
+            return ps;
+        }, generatedKeyHolder);
+        Long id = (Long) generatedKeyHolder.getKeyList().get(0).get("id");
+        comment.setId(id);
         return comment;
     }
 
-    private Comment updateNewCommit(Comment comment){
+    @Override
+    public Comment editComment(Comment comment){
         String sqlQuery = "UPDATE comments set text = ? where id = ?";
         Object[] params = {extractText(comment), comment.getId()};
         jdbcTemplate.update(sqlQuery, params);
