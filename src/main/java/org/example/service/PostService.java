@@ -55,7 +55,7 @@ public class PostService implements IPostService {
                 new HashSet<>();
 
         Post post = new Post(NEW_ID, title, text, imageBytes, DEFAULT_LIKES, new ArrayList<>(), tags);
-        return postRepository.save(post);
+        return postRepository.addPost(post);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class PostService implements IPostService {
 
         Set<String> tags = tagsString != null ? tagsStringToSet(tagsString) : new HashSet<>();
         post.setTags(tags);
-        return postRepository.update(post);
+        return postRepository.updatePost(post);
     }
 
     @Override

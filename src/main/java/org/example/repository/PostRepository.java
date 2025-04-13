@@ -44,11 +44,6 @@ public class PostRepository implements IPostRepository {
     }
 
     @Override
-    public List<Post> findByTag(String searchTag) {
-        return List.of();
-    }
-
-    @Override
     public void like(Long postId, boolean like) {
         String query = "UPDATE posts AS p" +
                 " SET likes = p.likes + " + (like ? 1 : -1) +
@@ -57,7 +52,7 @@ public class PostRepository implements IPostRepository {
     }
 
     @Override
-    public Post update(Post post) {
+    public Post updatePost(Post post) {
         String query = "update posts set title = ?, text = ?, image = ? where id = ?";
         jdbcTemplate.update(query, post.getTitle(), post.getText(), post.getImage(), post.getId());
 
@@ -67,7 +62,7 @@ public class PostRepository implements IPostRepository {
     }
 
     @Override
-    public Post save(Post post) {
+    public Post addPost(Post post) {
         String sqlQuery = "INSERT INTO posts (title, text, likes, image) VALUES (?, ?, ?, ?)";
 
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();

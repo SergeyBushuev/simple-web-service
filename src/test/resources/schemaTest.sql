@@ -52,7 +52,7 @@ VALUES ('Test Post Three', 'Oh, i think it was chicken', '0xffffff', 5);
 INSERT INTO posts (title, text, image, likes)
 VALUES ('Test Post Four', 'Anyway...', '0xffffff', -7);
 INSERT INTO posts (title, text, image, likes)
-VALUES ('Test Post Five', 'Gooses a way netter than chicken', '0xffffff', 9);
+VALUES ('Test Post Five', 'Gooses a way better than chicken', '0xffffff', 9);
 INSERT INTO posts (title, text, image, likes)
 VALUES ('Test Post Six', 'Oh, hi Mark!', '0xffffff', 0);
 
@@ -79,5 +79,7 @@ INSERT INTO post_tags (post_id, tag_id)
 VALUES (3, 'Other');
 INSERT INTO post_tags (post_id, tag_id)
 VALUES (4, 'Side');
+INSERT INTO post_tags (post_id, tag_id)
+VALUES (5, 'Goose');
 INSERT INTO post_tags (post_id, tag_id)
 VALUES (5, 'Get');

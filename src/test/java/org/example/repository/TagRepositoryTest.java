@@ -11,10 +11,11 @@ import org.example.config.DataSourceConfiguration;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringJUnitConfig(classes = {DataSourceConfiguration.class, TagRepository.class})
+@SpringJUnitConfig(classes = {
+        DataSourceConfiguration.class,
+        TagRepository.class})
 @TestPropertySource(locations = "classpath:applicationTest.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TagRepositoryTest {

@@ -13,7 +13,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringJUnitConfig(classes = {DataSourceConfiguration.class, CommentRepository.class})
+@SpringJUnitConfig(classes = {
+        DataSourceConfiguration.class,
+        CommentRepository.class})
 @TestPropertySource(locations = "classpath:applicationTest.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CommentRepositoryTest {

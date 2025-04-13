@@ -90,10 +90,7 @@ public class PostController {
                            @RequestParam(value = "text", required = false) String text,
                            @RequestParam(value = "tags", required = false) String tags,
                            @RequestPart(value = "image", required = false) MultipartFile image
-    ) throws IOException {
-        if (image.getBytes() == null) {
-            throw new RuntimeException("image is null");
-        }
+    ) {
         Post post = postService.editPost(id, title, text, image, tags);
         return "redirect:/posts/" + post.getId();
     }

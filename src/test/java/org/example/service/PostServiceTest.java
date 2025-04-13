@@ -16,10 +16,7 @@ import java.util.*;
 import static org.example.utils.TestUtils.createMultipartFile;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,7 +37,7 @@ public class PostServiceTest {
     void addPost_Ok_Test() {
 
 
-        when(postRepository.save(any())).thenAnswer(invocation -> {
+        when(postRepository.addPost(any())).thenAnswer(invocation -> {
             Post post = invocation.getArgument(0);
             post.setId(1L);
             return post;
@@ -92,7 +89,7 @@ public class PostServiceTest {
         MultipartFile image = createMultipartFile();
 
         when(postRepository.findById(1L)).thenReturn(Optional.of(post));
-        when(postRepository.update(any(Post.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(postRepository.updatePost(any(Post.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         postService.editPost(1L, "updated tiltle", "updated text", image, "tag3 tag4");
 
