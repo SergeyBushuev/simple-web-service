@@ -126,7 +126,7 @@ public class PostServiceTest {
         Comment comment = new Comment(1L, 1L, "newComment");
         Post post = new Post(1, "title", "text", new byte[5], 0, List.of(comment), Set.of("tag", "tag2"));
         when(postRepository.findById(1L)).thenReturn(Optional.of(post));
-        when(commentRepository.save(any(Comment.class))).thenReturn(comment);
+        when(commentRepository.addNewComment(any(Comment.class))).thenReturn(comment);
 
         postService.addComment(1L, "newComment");
 
@@ -148,7 +148,7 @@ public class PostServiceTest {
         Comment comment = new Comment(1L, 1L, "newComment");
 
         when(commentRepository.findById(1L)).thenReturn(Optional.of(comment));
-        when(commentRepository.save(any(Comment.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(commentRepository.editComment(any(Comment.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Comment editedComment = postService.editComment(1L, 1L, "newComment");
 
