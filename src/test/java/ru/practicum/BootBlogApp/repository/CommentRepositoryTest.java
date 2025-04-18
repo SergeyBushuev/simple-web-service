@@ -2,9 +2,9 @@ package ru.practicum.BootBlogApp.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.jdbc.Sql;
 import ru.practicum.BootBlogApp.model.Comment;
 
 import java.util.List;
@@ -12,10 +12,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringJUnitConfig(classes = {
-        CommentRepository.class})
-@TestPropertySource(locations = "classpath:applicationTest.properties")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@JdbcTest
+@Sql("/schema-test.sql")
+@Import({CommentRepository.class})
 public class CommentRepositoryTest {
 
     @Autowired

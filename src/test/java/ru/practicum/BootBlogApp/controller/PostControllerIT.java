@@ -29,7 +29,7 @@ import static ru.practicum.BootBlogApp.utils.TestUtils.createMultipartFile;
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class PostControllerTest {
+class PostControllerIT {
 
     @Autowired
     private WebApplicationContext webApplicationContext;

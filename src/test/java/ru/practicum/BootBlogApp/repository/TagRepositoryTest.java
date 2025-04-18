@@ -2,8 +2,11 @@ package ru.practicum.BootBlogApp.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.practicum.BootBlogApp.repository.interfaces.ITagRepository;
 
@@ -12,10 +15,9 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringJUnitConfig(classes = {
-        TagRepository.class})
-@TestPropertySource(locations = "classpath:applicationTest.properties")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@JdbcTest
+@Sql("/schema-test.sql")
+@Import({TagRepository.class})
 public class TagRepositoryTest {
 
     @Autowired
