@@ -1,4 +1,4 @@
-package org.example.repository.interfaces;
+package ru.practicum.BootBlogApp.repository.interfaces;
 
 import java.util.Set;
 

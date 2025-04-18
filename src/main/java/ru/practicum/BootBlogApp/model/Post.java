@@ -1,6 +1,4 @@
-package org.example.model;
-
-import org.springframework.web.multipart.MultipartFile;
+package ru.practicum.BootBlogApp.model;
 
 import java.util.List;
 import java.util.Set;

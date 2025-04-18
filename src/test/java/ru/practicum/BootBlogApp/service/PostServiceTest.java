@@ -1,15 +1,16 @@
-package org.example.service;
+package ru.practicum.BootBlogApp.service;
 
-import org.example.model.Comment;
-import org.example.model.Post;
-import org.example.repository.interfaces.ICommentRepository;
-import org.example.repository.interfaces.IPostRepository;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.multipart.MultipartFile;
+import ru.practicum.BootBlogApp.model.Comment;
+import ru.practicum.BootBlogApp.model.Post;
+import ru.practicum.BootBlogApp.repository.interfaces.ICommentRepository;
+import ru.practicum.BootBlogApp.repository.interfaces.IPostRepository;
 
 import java.util.*;
 

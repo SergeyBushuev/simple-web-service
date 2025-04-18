@@ -1,8 +1,9 @@
-package org.example.service.interfaces;
+package ru.practicum.BootBlogApp.service.interfaces;
 
-import org.example.model.Comment;
-import org.example.model.Post;
+
 import org.springframework.web.multipart.MultipartFile;
+import ru.practicum.BootBlogApp.model.Comment;
+import ru.practicum.BootBlogApp.model.Post;
 
 import java.util.List;
 

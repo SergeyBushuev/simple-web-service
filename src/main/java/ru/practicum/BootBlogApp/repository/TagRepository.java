@@ -1,12 +1,10 @@
-package org.example.repository;
+package ru.practicum.BootBlogApp.repository;
 
-import lombok.RequiredArgsConstructor;
-import org.example.repository.interfaces.ITagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.practicum.BootBlogApp.repository.interfaces.ITagRepository;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

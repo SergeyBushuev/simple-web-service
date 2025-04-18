@@ -1,12 +1,12 @@
-package org.example.repository;
+package ru.practicum.BootBlogApp.repository;
 
-import org.example.repository.interfaces.ITagRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.example.config.DataSourceConfiguration;
+import ru.practicum.BootBlogApp.config.DataSourceConfiguration;
+import ru.practicum.BootBlogApp.repository.interfaces.ITagRepository;
 
 import java.util.Set;
 

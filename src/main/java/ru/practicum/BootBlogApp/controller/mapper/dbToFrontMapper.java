@@ -1,7 +1,9 @@
-package org.example.controller.mapper;
+package ru.practicum.BootBlogApp.controller.mapper;
 
-import org.example.controller.model.PostFront;
-import org.example.model.Post;
+
+
+import ru.practicum.BootBlogApp.controller.model.PostFront;
+import ru.practicum.BootBlogApp.model.Post;
 
 import java.util.List;
 

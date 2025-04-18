@@ -1,14 +1,15 @@
-package org.example.service;
+package ru.practicum.BootBlogApp.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.model.Comment;
-import org.example.model.Post;
-import org.example.repository.interfaces.ICommentRepository;
-import org.example.repository.interfaces.IPostRepository;
-import org.example.service.interfaces.IPostService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.practicum.BootBlogApp.model.Comment;
+import ru.practicum.BootBlogApp.model.Post;
+import ru.practicum.BootBlogApp.repository.interfaces.ICommentRepository;
+import ru.practicum.BootBlogApp.repository.interfaces.IPostRepository;
+import ru.practicum.BootBlogApp.service.interfaces.IPostService;
 
 import java.io.IOException;
 import java.util.*;

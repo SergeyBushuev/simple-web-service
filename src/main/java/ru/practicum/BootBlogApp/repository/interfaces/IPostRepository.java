@@ -1,6 +1,7 @@
-package org.example.repository.interfaces;
+package ru.practicum.BootBlogApp.repository.interfaces;
 
-import org.example.model.Post;
+
+import ru.practicum.BootBlogApp.model.Post;
 
 import java.util.List;
 import java.util.Optional;

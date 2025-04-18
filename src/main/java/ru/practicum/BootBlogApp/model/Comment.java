@@ -1,4 +1,4 @@
-package org.example.model;
+package ru.practicum.BootBlogApp.model;
 
 public class Comment {
     private Long id;

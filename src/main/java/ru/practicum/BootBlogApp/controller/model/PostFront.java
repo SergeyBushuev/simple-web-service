@@ -1,6 +1,7 @@
-package org.example.controller.model;
+package ru.practicum.BootBlogApp.controller.model;
 
-import org.example.model.Comment;
+
+import ru.practicum.BootBlogApp.model.Comment;
 
 import java.util.List;
 import java.util.Set;

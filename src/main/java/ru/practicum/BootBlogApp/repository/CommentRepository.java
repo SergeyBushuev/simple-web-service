@@ -1,11 +1,11 @@
-package org.example.repository;
+package ru.practicum.BootBlogApp.repository;
 
-import org.example.model.Comment;
-import org.example.repository.interfaces.ICommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.practicum.BootBlogApp.model.Comment;
+import ru.practicum.BootBlogApp.repository.interfaces.ICommentRepository;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;

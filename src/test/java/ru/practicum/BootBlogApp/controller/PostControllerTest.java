@@ -1,11 +1,10 @@
-package org.example.controller;
+package ru.practicum.BootBlogApp.controller;
 
-import org.example.controller.model.Paging;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -15,6 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.example.config.DataSourceConfiguration;
 import org.example.config.WebConfiguration;
+import ru.practicum.BootBlogApp.controller.model.Paging;
 
 import static org.example.utils.TestUtils.createMultipartFile;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

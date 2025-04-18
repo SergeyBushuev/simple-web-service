@@ -1,4 +1,4 @@
-package org.example.controller.model;
+package ru.practicum.BootBlogApp.controller.model;
 
 public record Paging(
         int pageNumber,

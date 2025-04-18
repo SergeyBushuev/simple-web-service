@@ -1,8 +1,9 @@
-package org.example.repository.mappers;
+package ru.practicum.BootBlogApp.repository.mappers;
 
-import org.example.model.Comment;
-import org.example.model.Post;
+
 import org.springframework.jdbc.core.RowMapper;
+import ru.practicum.BootBlogApp.model.Comment;
+import ru.practicum.BootBlogApp.model.Post;
 
 public class RowMappers {
     public static final RowMapper<Post> postRowMapper = (resultSet, rowNum) -> {

@@ -1,4 +1,4 @@
-package org.example.utils;
+package ru.practicum.BootBlogApp.utils;
 
 import org.springframework.mock.web.MockMultipartFile;
 

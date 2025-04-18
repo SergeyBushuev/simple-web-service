@@ -1,11 +1,7 @@
-package org.example.controller;
+package ru.practicum.BootBlogApp.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.controller.mapper.dbToFrontMapper;
-import org.example.controller.model.Paging;
-import org.example.controller.model.PostFront;
-import org.example.model.Post;
-import org.example.service.interfaces.IPostService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
@@ -14,6 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.practicum.BootBlogApp.controller.mapper.dbToFrontMapper;
+import ru.practicum.BootBlogApp.controller.model.Paging;
+import ru.practicum.BootBlogApp.controller.model.PostFront;
+import ru.practicum.BootBlogApp.model.Post;
+import ru.practicum.BootBlogApp.service.interfaces.IPostService;
 
 import java.io.IOException;
 import java.util.List;

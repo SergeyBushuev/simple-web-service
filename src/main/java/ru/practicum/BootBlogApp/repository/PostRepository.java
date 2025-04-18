@@ -1,21 +1,22 @@
-package org.example.repository;
+package ru.practicum.BootBlogApp.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.example.model.Comment;
-import org.example.model.Post;
-import org.example.repository.interfaces.ICommentRepository;
-import org.example.repository.interfaces.IPostRepository;
-import org.example.repository.interfaces.ITagRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.practicum.BootBlogApp.model.Comment;
+import ru.practicum.BootBlogApp.model.Post;
+import ru.practicum.BootBlogApp.repository.interfaces.ICommentRepository;
+import ru.practicum.BootBlogApp.repository.interfaces.IPostRepository;
+import ru.practicum.BootBlogApp.repository.interfaces.ITagRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.*;
 
-import static org.example.repository.mappers.RowMappers.postRowMapper;
+import static ru.practicum.BootBlogApp.repository.mappers.RowMappers.postRowMapper;
 
 @Repository
 @RequiredArgsConstructor

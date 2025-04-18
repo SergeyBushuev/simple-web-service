@@ -1,4 +1,4 @@
-package org.example.config;
+package ru.practicum.BootBlogApp.config;
 
 import org.h2.Driver;
 import org.springframework.beans.factory.annotation.Value;

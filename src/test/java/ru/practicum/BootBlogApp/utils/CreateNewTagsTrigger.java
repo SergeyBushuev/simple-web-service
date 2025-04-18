@@ -1,4 +1,4 @@
-package org.example.utils;
+package ru.practicum.BootBlogApp.utils;
 
 import org.h2.api.Trigger;
 
