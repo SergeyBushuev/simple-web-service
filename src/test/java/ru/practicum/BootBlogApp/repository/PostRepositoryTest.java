@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.example.config.DataSourceConfiguration;
 import ru.practicum.BootBlogApp.model.Post;
 
 import java.util.*;
@@ -15,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringJUnitConfig(classes = {
-        DataSourceConfiguration.class,
         PostRepository.class,
         CommentRepository.class,
         TagRepository.class})

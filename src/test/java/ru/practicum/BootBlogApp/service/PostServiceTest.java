@@ -14,13 +14,13 @@ import ru.practicum.BootBlogApp.repository.interfaces.IPostRepository;
 
 import java.util.*;
 
-import static org.example.utils.TestUtils.createMultipartFile;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static ru.practicum.BootBlogApp.utils.TestUtils.createMultipartFile;
 
 @ExtendWith(MockitoExtension.class)
 public class PostServiceTest {

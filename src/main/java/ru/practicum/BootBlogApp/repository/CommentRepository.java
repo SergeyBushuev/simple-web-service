@@ -13,7 +13,8 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
-import static org.example.repository.mappers.RowMappers.commentRowMapper;
+import static ru.practicum.BootBlogApp.repository.mappers.RowMappers.commentRowMapper;
+
 
 @Repository
 public class CommentRepository implements ICommentRepository {

@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import ru.practicum.BootBlogApp.config.DataSourceConfiguration;
 import ru.practicum.BootBlogApp.repository.interfaces.ITagRepository;
 
 import java.util.Set;
@@ -14,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringJUnitConfig(classes = {
-        DataSourceConfiguration.class,
         TagRepository.class})
 @TestPropertySource(locations = "classpath:applicationTest.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)

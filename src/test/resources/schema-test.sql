@@ -36,11 +36,11 @@ CREATE TABLE IF NOT EXISTS post_tags
 
 CREATE TRIGGER IF NOT EXISTS auto_delete_tags
     AFTER DELETE ON post_tags
-    FOR EACH ROW CALL "org.example.utils.DeleteRedundantTagsTrigger";
+    FOR EACH ROW CALL "ru.practicum.BootBlogApp.utils.DeleteRedundantTagsTrigger";
 
 CREATE TRIGGER IF NOT EXISTS auto_create_tags
     BEFORE INSERT ON post_tags
-    FOR EACH ROW CALL "org.example.utils.CreateNewTagsTrigger";
+    FOR EACH ROW CALL "ru.practicum.BootBlogApp.utils.CreateNewTagsTrigger";
 
 
 INSERT INTO posts (title, text, image, likes)
